@@ -32,6 +32,7 @@ class MakeFourClojurePipeline(object):
         self._make_4clojure(item)
         return item
 
+    base_output = "output"
     clojure_code_dir = "four_clojure_tests"
     clojure_code_dir_skipped = "four_clojure_tests_skipped"
     clojure_code_dir_tofix = "four_clojure_tests_to_fix"
@@ -74,6 +75,8 @@ class MakeFourClojurePipeline(object):
 
         code = format(item, self.clojure_template)
         number = item['number']
-        pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
-        with codecs.open(os.path.join(directory, 'problem_{}_test.clj'.format(number)), 'w', 'utf8') as file:
+
+        output_dir = os.path.join(self.base_output, directory)
+        pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
+        with codecs.open(os.path.join(output_dir, 'problem_{}_test.clj'.format(number)), 'w', 'utf8') as file:
             file.write(code)
